@@ -17,7 +17,7 @@ public class BuyStepdefs {
         order = new Order();
     }
 
-    @Given("a product {string} with price {float} and stock of {int} exists")
+    @Given("a product {string} with price {double} and stock of {int} exists")
     public void a_product_exists(String name, double price, int stock) {
         catalog.addProduct(name, price, stock);
     }
@@ -26,6 +26,12 @@ public class BuyStepdefs {
     public void i_buy_with_quantity(String name, int quantity) {
         Product prod = catalog.getProduct(name);
         order.addItem(prod, quantity);
+    }
+
+    @Then("quantity remaining in stock of {string} should be {int}")
+    public void quantity_remaining_in_stock_of_should_be(String name, int quantity) {
+        int quantity_in_stock = catalog.getProduct(name).getStock();
+        assertEquals(quantity, quantity_in_stock);
     }
 
     @Then("total should be {float}")
